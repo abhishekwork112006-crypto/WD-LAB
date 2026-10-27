@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+</head>
+<body>
+
+    <h2>Registration Form</h2>
+
+    <!-- Removed onsubmit from here -->
+    <form id="regForm" action="#" method="POST">
+        
+        <!-- Name -->
+        Name: <input type="text" id="username" name="name" required>
+        <span id="nameError" class="error"></span>
+        <br><br>
+
+        <!-- Password -->
+        Password: <input type="password" id="password" name="password" required>
+        <span id="passwordError" class="error"></span>
+        <br><br>
+
+        <!-- E-mail ID -->
+        E-mail ID: <input type="text" id="email" name="email" required>
+        <span id="emailError" class="error"></span>
+        <br><br>
+
+        <!-- Phone Number -->
+        Phone Number: <input type="text" id="phone" name="phone" required>
+        <span id="phoneError" class="error"></span>
+        <br><br>
+
+        <!-- Sex (Radio button) -->
+        Sex: 
+        <input type="radio" name="sex" value="Male" id="male" required> <label for="male">Male</label>
+        <input type="radio" name="sex" value="Female" id="female"> <label for="female">Female</label>
+        <input type="radio" name="sex" value="Other" id="other"> <label for="other">Other</label>
+        <br><br>
+
+        <!-- Date of birth (3 select boxes) -->
+        Date of Birth: 
+        <select name="dob_day" required>
+            <option value="" disabled selected>Day</option>
+            <script>
+                for (let i = 1; i <= 31; i++) {
+                    document.write(`<option value="${i}">${i}</option>`);
+                }
+            </script>
+        </select>
+        <select name="dob_month" required>
+            <option value="" disabled selected>Month</option>
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select>
+        <select name="dob_year" required>
+            <option value="" disabled selected>Year</option>
+            <script>
+                const currentYear = new Date().getFullYear();
+                for (let i = currentYear; i >= currentYear - 100; i--) {
+                    document.write(`<option value="${i}">${i}</option>`);
+                }
+            </script>
+        </select>
+        <br><br>
+
+        <!-- Languages known (Checkboxes) -->
+        Languages Known: 
+        <input type="checkbox" name="languages" value="English" id="eng"> <label for="eng">English</label>
+        <input type="checkbox" name="languages" value="Telugu" id="tel"> <label for="tel">Telugu</label>
+        <input type="checkbox" name="languages" value="Hindi" id="hin"> <label for="hin">Hindi</label>
+        <input type="checkbox" name="languages" value="Tamil" id="tam"> <label for="tam">Tamil</label>
+        <br><br>
+
+        <!-- Address (Text area) -->
+        Address: <textarea name="address" required></textarea><br><br>
+
+        <!-- Submit Button -->
+        <input type="submit" value="Register">
+        
+    </form>
+
+    <!-- Script files -->
+    <script src="namePasswordValidation.js"></script>
+    <script src="emailPhoneValidation.js"></script>
+
+    <!-- Master Listener to run both independently -->
+    <script>
+        document.getElementById("regForm").addEventListener("submit", function(event) {
+            let isValid = true;
+
+            // Run name & password validation if the function exists
+            if (typeof validateForm === "function") {
+                // We create a fake or captured event call, or adapt it
+                const r1 = validateForm(event);
+                if (r1 === false) isValid = false;
+            }
+
+            // Run email & phone validation if the function exists
+            if (typeof validateEmailPhone === "function") {
+                const r2 = validateEmailPhone(event);
+                if (r2 === false) isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+                return false;
+            }
+        });
+    </script>
+</body>
+</html>
